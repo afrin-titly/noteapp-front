@@ -22,3 +22,6 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### tailwind setup
+https://dev.to/ifeoma/how-to-set-up-tailwind-with-vue-3-2p1j
