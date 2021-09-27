@@ -29,9 +29,34 @@
 </template>
 
 <script>
+    import axios from '../plugins/axios_plugin'
+    import router from '../router/index.js'
     export default {
+        data() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
 
-    }
+        methods: {
+            loginSubmit() {
+                new Promise((resolve, reject) =>{
+                    axios.post('http://localhost:3000/login',{
+                        username: this.username,
+                        password: this.password
+                    }).then(response =>{
+                        resolve(response.data)
+                        router.push({path: '/'})
+                        console.log(response.data)
+                    })
+                    .catch(error=>{
+                        reject(error)
+                    })
+                })
+                }
+            }
+        }
 </script>
 
 <style scoped>
