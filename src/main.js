@@ -3,7 +3,9 @@ import App from './App.vue'
 import './styles/tailwind.css';
 import router from './router'
 import './permissions'
+import store from './store/index'
 
 const app = createApp(App)
 app.use(router)
+app.use(store)
 app.mount('#app')
