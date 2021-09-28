@@ -1,8 +1,10 @@
-import {createStore} from 'vuex'
-import login from './modules/login'
+import { createStore } from 'vuex'
+import login from './modules/login.js'
 
 const store = createStore({
     modules: {
-        login,
+      login,
     }
-})
+  })
+
+export default store

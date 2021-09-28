@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-view></router-view>
     <Home />
   </div>
 </template>
@@ -9,7 +10,6 @@
 import Home from '@/components/Home.vue'
 
 export default {
-  name: 'Home',
   components: {
     Home
   }
