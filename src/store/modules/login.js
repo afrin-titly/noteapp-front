@@ -2,10 +2,16 @@ import axios from '../../plugins/axios_plugin'
 const login = {
     state: {
         token: "",
+        isLoggedIn: false,
     },
     mutations: {
         setToken: (state, payload) => {
             state.token = payload
+            state.isLoggedIn = true
+        },
+        removeToken: (state) => {
+            state.token = ""
+            state.isLoggedIn = false
         }
     },
     actions: {
@@ -23,6 +29,9 @@ const login = {
                     reject(error)
                 })
             })
+        },
+        logoutSubmit({commit}) {
+            commit('removeToken')
         }
     }
 
