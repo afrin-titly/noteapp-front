@@ -6,9 +6,10 @@ router.beforeEach((to, from, next)=>{
     if(store.state.token){
         next()
     } else {
-        if(to.name != "login") {
+        if(to.name != "login" && to.name != "signup") {
             next({name: "login"})
-        } else {
+        }
+        else {
             next()
         }
     }
