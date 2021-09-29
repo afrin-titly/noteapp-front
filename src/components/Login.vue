@@ -21,6 +21,7 @@
         </div>
         <div class="mb-6">
           <button type="submit" class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none duration-100 ease-in-out">Sign in</button>
+          <router-link class="block w-full text-center no-underline mt-4 text-sm text-gray-700 hover:text-gray-900" :to="{name: 'signup'}">Not have an account?</router-link>
         </div>
       </form>
     </div>
@@ -30,7 +31,7 @@
 
 <script>
     import router from '../router/index'
-    import {mapActions} from "vuex"
+    import { mapActions, mapGetters } from "vuex"
     export default {
         data() {
             return {
@@ -39,14 +40,16 @@
             }
         },
         computed: {
-
+            ...mapGetters(["getToken"])
         },
         methods: {
             ...mapActions(["loginSubmit"]),
 
             loginFormSubmit() {
               this.loginSubmit({username: this.username, password: this.password}).then(()=>{
-                router.push({path: "/"})
+                if(this.getToken) {
+                  router.push({path: "/"})
+                }
               })
             }
         }
