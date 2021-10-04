@@ -24,7 +24,6 @@ const login = {
                 }).then(response =>{
                     resolve(response.data)
                     commit('setToken',response.data.token)
-                    console.log(response.data.token)
                 })
                 .catch(error=>{
                     reject(error)
