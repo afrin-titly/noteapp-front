@@ -1,14 +1,19 @@
 import axios from '../../plugins/axios_plugin'
+import Cookie from "js-cookie"
 const login = {
     state: {
         user: {},
-        token: "",
+        token: Cookie.get("token"),
         isLoggedIn: false,
     },
     mutations: {
         setToken: (state, payload) => {
             state.token = payload
             state.isLoggedIn = true
+            Cookie.set("token", payload)
+        },
+        setUser: (state, payload) => {
+            state.user = payload
         },
         removeToken: (state) => {
             state.token = ""
@@ -24,6 +29,7 @@ const login = {
                 }).then(response =>{
                     resolve(response.data)
                     commit('setToken',response.data.token)
+                    commit('setUser', response.data.user)
                 })
                 .catch(error=>{
                     reject(error)
@@ -55,6 +61,9 @@ const login = {
     getters: {
         getToken(state) {
             return state.token
+        },
+        getUserInfo(state) {
+            return state.user
         }
     }
 

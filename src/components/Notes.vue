@@ -1,4 +1,10 @@
 <template>
+    <h1>Create new Note</h1>
+    <form @submit.prevent="createNoteForm">
+        <label for="message"> Message </label>
+        <input type="text" v-model="message">
+        <button type="submit">Create Note </button>
+    </form>
     <h1>All Notes</h1>
     <div v-if="getAllNotes">
         <ul>
@@ -12,23 +18,27 @@
     export default {
         data() {
             return {
-
+                message: ''
             }
         },
         mounted() {
-            this.fetchAllNotes().then((response)=>{
-                console.log("vallagena.."+response)
+            this.fetchAllNotes().then(()=>{
+                // console.log(this.getUserInfo()+"------")
             })
         },
         computed: {
             ...mapGetters({
-                getAllNotes: "getAllNotes"
+                getAllNotes: "note/getAllNotes",
             })
         },
         methods: {
             ...mapActions({
-                fetchAllNotes: "fetchAllNotes"
-            })
+                fetchAllNotes: "note/fetchAllNotes",
+                createNote: "note/createNote"
+            }),
+            createNoteForm() {
+                this.createNote({message: this.message})
+            }
         }
     }
 </script>
