@@ -9,8 +9,14 @@ const note = {
         allNotes: (state, payload) => {
             state.notes = payload
         },
+        // fixme: after delete main list doesn't update without refresh
         updateNotes: (state, payload) => {
-            state.notes.push(payload)
+            if(payload.m == "create") {
+                state.notes.push(payload)
+            } else if(payload.m == "delete"){
+                state.note.splice(payload.p, 1)
+            }
+
         }
     },
     actions: {
@@ -31,14 +37,23 @@ const note = {
         },
         createNote({commit}, payload) {
             const newNote = {message: payload.message, user_id: login.state.user.id}
-            console.log(payload.message+" ------")
-            // save the token in cookie
             return new Promise((resolve, reject)=>{
                 axios.post("http://localhost:3000/notes",{
                     note: newNote
                 }).then(response=>{
                     resolve(response)
-                    commit('updateNotes', response.data)
+                    commit('updateNotes', {p: response.data, m: "create"})
+                }).catch(err=>{
+                    reject(err)
+                })
+            })
+        },
+        deleteNoteSubmit({commit}, payload) {
+            return new Promise((resolve, reject) =>{
+                axios.delete("http://localhost:3000/notes/"+payload.note.id)
+                .then(response=>{
+                    resolve(response)
+                    commit('updateNotes', {p: response.data, m: "delete"})
                 }).catch(err=>{
                     reject(err)
                 })

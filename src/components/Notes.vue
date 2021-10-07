@@ -8,9 +8,19 @@
     </form>
     <h1>All Notes</h1>
     <div v-if="getAllNotes">
-        <ul>
-            <li v-for="note in getAllNotes" :key="note.id" >{{note.message}}</li>
-        </ul>
+        <table class="table-auto">
+            <tr>
+                <th> Message </th>
+                <th colspan="2"> Action </th>
+            </tr>
+            <tbody>
+                <tr class="bg-emerald-200" v-for="note in getAllNotes" :key="note.id">
+                    <td> {{note.message}} </td>
+                    <td><button @click="editNote(note)">Edit</button></td>
+                    <td><button @click="deleteNote(note)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -35,10 +45,17 @@
         methods: {
             ...mapActions({
                 fetchAllNotes: "note/fetchAllNotes",
-                createNote: "note/createNote"
+                createNote: "note/createNote",
+                deleteNoteSubmit: "note/deleteNoteSubmit"
             }),
             createNoteForm() {
                 this.createNote({message: this.message})
+            },
+            editNote(note) {
+                console.log(note)
+            },
+            deleteNote(note) {
+                this.deleteNoteSubmit({note: note})
             }
         }
     }
