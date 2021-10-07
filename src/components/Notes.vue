@@ -2,7 +2,8 @@
     <h1>Create new Note</h1>
     <form @submit.prevent="createNoteForm">
         <label for="message"> Message </label>
-        <input type="text" v-model="message">
+        <input class="border py-2 px-3 text-grey-500"
+        type="text" v-model="message">
         <button type="submit">Create Note </button>
     </form>
     <h1>All Notes</h1>
