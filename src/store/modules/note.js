@@ -9,12 +9,12 @@ const note = {
         allNotes: (state, payload) => {
             state.notes = payload
         },
-        // fixme: after delete main list doesn't update without refresh
         updateNotes: (state, payload) => {
             if(payload.m == "create") {
                 state.notes.push(payload)
             } else if(payload.m == "delete"){
-                state.note.splice(payload.p, 1)
+                state.notes.splice(payload.p, 1)
+
             }
 
         }
