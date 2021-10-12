@@ -8,7 +8,7 @@
     </div>
     <!-- sign-in -->
     <div class="m-6">
-      <form class="mb-4" @submit.prevent="loginSubmit">
+      <form class="mb-4" @submit.prevent="loginFormSubmit">
         <div class="mb-6">
           <label for="username" class="block mb-2 text-sm text-gray-600 dark:text-gray-400">User Name</label>
           <input type="text" v-model="username" name="email" id="email" placeholder="Your user name" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" />
@@ -21,6 +21,7 @@
         </div>
         <div class="mb-6">
           <button type="submit" class="w-full px-3 py-4 text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none duration-100 ease-in-out">Sign in</button>
+          <router-link class="block w-full text-center no-underline mt-4 text-sm text-gray-700 hover:text-gray-900" :to="{name: 'signup'}">Not have an account?</router-link>
         </div>
       </form>
     </div>
@@ -29,8 +30,29 @@
 </template>
 
 <script>
+    import router from '../router/index'
+    import { mapActions, mapGetters } from "vuex"
     export default {
+        data() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        computed: {
+            ...mapGetters(["getToken"])
+        },
+        methods: {
+            ...mapActions(["loginSubmit"]),
 
+            loginFormSubmit() {
+              this.loginSubmit({username: this.username, password: this.password}).then(()=>{
+                if(this.getToken) {
+                  router.push({path: "/"})
+                }
+              })
+            }
+        }
     }
 </script>
 
