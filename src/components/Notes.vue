@@ -14,8 +14,10 @@
                 <th colspan="2"> Action </th>
             </tr>
             <tbody>
-                <tr class="bg-emerald-200" v-for="note in getAllNotes" :key="note.id">
+                <tr class="bg-emerald-200" v-for="note in getAllNotes" :key="note">
                     <td> {{note.message}} </td>
+                    <td><input type="text" v-model="editMessage[note.id]" class="border py-2 px-3 text-grey-500"/></td>
+                    <!-- fix: after editing field should be empty -->
                     <td><button @click="editNote(note)">Edit</button></td>
                     <td><button @click="deleteNote(note)">Delete</button></td>
                 </tr>
@@ -29,7 +31,9 @@
     export default {
         data() {
             return {
-                message: ''
+                message: '',
+                hiddenField: false,
+                editMessage: []
             }
         },
         mounted() {
@@ -46,13 +50,15 @@
             ...mapActions({
                 fetchAllNotes: "note/fetchAllNotes",
                 createNote: "note/createNote",
-                deleteNoteSubmit: "note/deleteNoteSubmit"
+                deleteNoteSubmit: "note/deleteNoteSubmit",
+                editNoteSubmit: "note/editNoteSubmit"
             }),
             createNoteForm() {
                 this.createNote({message: this.message})
             },
             editNote(note) {
-                console.log(note)
+                const editedNote = {id: note.id, message: this.editMessage[note.id]}
+                this.editNoteSubmit({note: editedNote})
             },
             deleteNote(note) {
                 this.deleteNoteSubmit({note: note})

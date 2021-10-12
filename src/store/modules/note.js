@@ -1,3 +1,4 @@
+
 import axios from '../../plugins/axios_plugin'
 import login from './login'
 const note = {
@@ -14,19 +15,16 @@ const note = {
                 state.notes.push(payload)
             } else if(payload.m == "delete"){
                 state.notes.splice(payload.p, 1)
-
+            } else if(payload.m == "edit") {
+                var index = state.notes.map(item => item.id).indexOf(payload.p.id)
+                state.notes[index] = payload.p
             }
-
         }
     },
     actions: {
         fetchAllNotes({commit}) {
             return new Promise((resolve, reject)=>{
-                axios.get("http://localhost:3000/notes",{
-                    headers: {
-                        'Authorization': "bearer "+login.state.token
-                    }
-                })
+                axios.get("http://localhost:3000/notes")
                 .then(response=>{
                     resolve(response.data)
                     commit('allNotes',response.data)
@@ -54,6 +52,19 @@ const note = {
                 .then(response=>{
                     resolve(response)
                     commit('updateNotes', {p: response.data, m: "delete"})
+                }).catch(err=>{
+                    reject(err)
+                })
+            })
+        },
+        editNoteSubmit({commit}, payload) {
+            return new Promise((resolve, reject) => {
+                axios.patch("http://localhost:3000/notes/"+payload.note.id,{
+                    note: payload.note
+                })
+                .then(response=>{
+                    resolve(response)
+                    commit('updateNotes', {p: response.data, m: "edit"})
                 }).catch(err=>{
                     reject(err)
                 })
