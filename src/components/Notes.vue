@@ -17,7 +17,6 @@
                 <tr class="bg-emerald-200" v-for="note in getAllNotes" :key="note">
                     <td> {{note.message}} </td>
                     <td><input type="text" v-model="editMessage[note.id]" class="border py-2 px-3 text-grey-500"/></td>
-                    <!-- fix: after editing field should be empty -->
                     <td><button @click="editNote(note)">Edit</button></td>
                     <td><button @click="deleteNote(note)">Delete</button></td>
                 </tr>
@@ -59,6 +58,7 @@
             editNote(note) {
                 const editedNote = {id: note.id, message: this.editMessage[note.id]}
                 this.editNoteSubmit({note: editedNote})
+                this.editMessage[note.id] = ''
             },
             deleteNote(note) {
                 this.deleteNoteSubmit({note: note})
